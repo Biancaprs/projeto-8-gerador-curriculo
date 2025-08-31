@@ -1,1 +1,46 @@
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap");
 @import "tailwindcss";
+
+:root {
+  --cor-bg: #ffffff;
+  --cor-bg-cards: #f8f8f8;
+  --bg-preview: #fafafa;
+  --bg-cards2: #f5f5f5;
+  --cor-border: #e5e5e5;
+  --cor-text: #171717;
+  --cor-text-secondary: #ffffff;
+  --cor-text-input: #a9a9a9;
+  --cor-text-error: #d9534f;
+}
+
+@theme {
+  --font-geist: "Geist", sans-serif;
+}
+
+@utility h1 {
+  font-family: var(--font-geist);
+  font-weight: bold;
+  font-size: 1.875rem;
+  text-align: center;
+}
+
+@utility exportar-button {
+  font-family: var(--font-geist);
+  font-size: 14px;
+  line-height: var(
+    --tw-leading,
+    var(--text-sm--line-height) /* calc(1.25 / 0.875) ≈ 1.4286 */
+  );
+  font-weight: 500;
+  height: 2.5rem /* 40px */;
+  color: var(--cor-text-secondary);
+  border: var(--cor-border);
+  background-color: rgb(23, 23, 23, 0.5);
+  border-radius: 6px;
+  padding-inline: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  gap: 8px;
+}
