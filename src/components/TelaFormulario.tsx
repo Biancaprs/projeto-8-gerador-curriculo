@@ -1,5 +1,5 @@
 import type React from "react";
-import FormHabilidades from "../FormHabilidades";
+import FormHabilidades from "./FormHabilidades";
 import FormDados from "./FormDados";
 
 interface Habilidade {
