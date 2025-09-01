@@ -2,9 +2,22 @@ import SectionCard from "./SectionCard";
 import TextInput from "./TextInput";
 import TextArea from "./TextArea";
 import { MAX_SUMMARY_CHARS, validate } from "../utils/validation";
-import LinksAdicionais from "../components/LinksAdicionais";
 
-export default function FormDados({ data, setData, links, setLinks }) {
+type DadosPessoais = {
+  name: string;
+  email: string;
+  phone: string;
+  linkedin: string;
+  summary: string;
+  [key: string]: string;
+};
+
+type FormDadosProps = {
+  data: DadosPessoais;
+  setData: (data: DadosPessoais) => void;
+};
+
+export default function FormDados({ data, setData }: FormDadosProps) {
   const errors = validate(data);
 
   function update(key: string, value: string) {
@@ -41,11 +54,8 @@ export default function FormDados({ data, setData, links, setLinks }) {
         onChange={(e) => update("linkedin", e.target.value)}
         error={errors.linkedin}
       />
-      <form className="space-y-4 p-4">
-        <LinksAdicionais links={links} setLinks={setLinks} />
-      </form>
       <TextArea
-        label="Resumo Profissional"
+        label="Resumo"
         placeholder="Descreva brevemente sua experiência e objetivos profissionais..."
         value={data.summary}
         onChange={(e) => update("summary", e.target.value)}

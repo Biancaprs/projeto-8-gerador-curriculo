@@ -1,7 +1,6 @@
 import { useState } from "react";
 import TelaFormulario from "./components/TelaFormulario";
 import TelaPreview from "./components/TelaPreview";
-import "./App.css";
 
 export default function App() {
   const [data, setData] = useState({
