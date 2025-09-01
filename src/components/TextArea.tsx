@@ -5,7 +5,10 @@ export default function TextArea({
   label,
   error,
   ...props
-}: React.TextareaHTMLAttributes<HTMLTextAreaElement> & { error?: string }) {
+}: React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
+  label?: string;
+  error?: string;
+}) {
   return (
     <div>
       <label className="text-sm font-medium text-gray-700">{label}</label>

@@ -34,7 +34,6 @@ type ExperienceProps = {
 export default function Experience({
   experiences,
   setExperiences,
-  experienceDraft,
   setExperienceDraft,
 }: ExperienceProps) {
   const [data, setData] = useState<ExperienceData>(initialData);
@@ -52,6 +51,7 @@ export default function Experience({
     setData(initialData);
     setShowForm(false);
     setExperienceDraft(null);
+    setEditingIndex(null);
   }
 
   function handleEdit(idx: number) {
@@ -75,6 +75,13 @@ export default function Experience({
 
   function handleRemove(idx: number) {
     setExperiences(experiences.filter((_, i) => i !== idx));
+    // Se estiver editando o mesmo índice, limpe o draft e feche o form
+    if (editingIndex === idx) {
+      setEditingIndex(null);
+      setData(initialData);
+      setShowForm(false);
+      setExperienceDraft(null);
+    }
   }
 
   function handleCancel() {
@@ -92,6 +99,7 @@ export default function Experience({
           setShowForm(true);
           setEditingIndex(null);
           setData(initialData);
+          setExperienceDraft(initialData);
         }}
       >
         + Adicionar Experiência
