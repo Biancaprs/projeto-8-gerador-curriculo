@@ -1,6 +1,14 @@
+import Experience from "./Experience";
 import FormDados from "./FormDados";
 
-export default function TelaFormulario({ data, setData, links, setLinks }) {
+export default function TelaFormulario({
+  data,
+  setData,
+  experiences,
+  setExperiences,
+  experienceDraft,
+  setExperienceDraft,
+}) {
   return (
     <div className="p-8 space-y-8 font-geist">
       <div className="text-center mb-8">
@@ -9,7 +17,7 @@ export default function TelaFormulario({ data, setData, links, setLinks }) {
           Crie seu currículo profissional com preview em tempo real
         </p>
       </div>
-      <div className="flex justify-center mb-6">
+      {/* <div className="flex justify-center mb-6">
         <button className="exportar-button has-[>svg]: px-4 outline-none shrink-0">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -32,23 +40,15 @@ export default function TelaFormulario({ data, setData, links, setLinks }) {
         <p className="text-center text-sm mt-2 ml-2">
           Preencha os campos obrigatórios para habilitar a exportação
         </p>
-      </div>
+      </div> */}
       <div className="bg-bg-[var(--cor-bg)]">
-        <FormDados
-          data={data}
-          setData={setData}
-          links={links}
-          setLinks={setLinks}
+        <FormDados data={data} setData={setData} />
+        <Experience
+          experiences={experiences}
+          setExperiences={setExperiences}
+          experienceDraft={experienceDraft}
+          setExperienceDraft={setExperienceDraft}
         />
-      </div>
-      <div>
-        <h2>HabilidadesCard.tsx</h2>
-      </div>
-      <div>
-        <h2>ExperiênciasCard.tsx</h2>
-      </div>
-      <div>
-        <h2>FormaçãoCard.tsx</h2>
       </div>
     </div>
   );
