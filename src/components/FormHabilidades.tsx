@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import SectionCard from "./SectionCard";
+import TextInput from "./TextInput";
 
 interface Habilidade {
     id: string;
@@ -24,47 +26,59 @@ export default function FormHabilidades({ habilidades, setHabilidades}:Props){
     function removerHabilidade(id: string) {
     setHabilidades((prev) => prev.filter((h) => h.id !== id));
   } return (
-    <div className="p-4">
-      <h2 className="text-xl font-bold mb-2">Habilidades</h2>
-
+     <SectionCard title="Habilidades">
       <div className="flex gap-2 mb-4">
-        <input
-          type="text"
+        <TextInput
+          label="Nome da habilidade"
+          placeholder="Ex: JavaScript"
           value={nome}
           onChange={(e) => setNome(e.target.value)}
-          placeholder="Nome da habilidade"
-          className="border p-2 flex-1 rounded"
         />
-        <select
-          value={nivel}
-          onChange={(e) => setNivel(e.target.value as any)}
-          className="border p-2 rounded"
-        >
-          <option>Básico</option>
-          <option>Intermediário</option>
-          <option>Avançado</option>
-        </select>
+
+        <div className="flex flex-col w-40">
+          <label className="text-sm font-medium text-slate-700 mb-1">
+            Nível
+          </label>
+          <select
+            value={nivel}
+            onChange={(e) =>
+              setNivel(e.target.value as "Básico" | "Intermediário" | "Avançado")
+            }
+            className="border rounded p-2 text-sm"
+          >
+            <option value="Básico">Básico</option>
+            <option value="Intermediário">Intermediário</option>
+            <option value="Avançado">Avançado</option>
+          </select>
+        </div>
+
         <button
+          type="button"
           onClick={adicionarHabilidade}
-          className="bg-blue-500 text-white px-3 rounded"
+          className="self-end bg-blue-500 text-white px-4 py-2 rounded text-sm font-medium hover:bg-blue-600"
         >
-          +
+          Adicionar
         </button>
       </div>
 
       <ul className="space-y-2">
         {habilidades.map((h) => (
-          <li key={h.id} className="flex justify-between items-center border p-2 rounded">
-            <span>{h.nome} – {h.nivel}</span>
+          <li
+            key={h.id}
+            className="flex justify-between items-center border p-2 rounded"
+          >
+            <span className="text-sm">
+              {h.nome} – {h.nivel}
+            </span>
             <button
               onClick={() => removerHabilidade(h.id)}
-              className="text-red-500"
+              className="text-red-500 hover:underline text-sm"
             >
               Remover
             </button>
           </li>
         ))}
       </ul>
-    </div>
+    </SectionCard>
   );
 }
