@@ -13,7 +13,7 @@ interface Props {
 }
 // export default TelaFormulario;
 
-function TelaFormulario({ habilidades, setHabilidades}: Props) {
+export default function TelaFormulario({ habilidades, setHabilidades}: Props) {
   return (
     <div className="p-8 space-y-8 font-geist">
       <div className="text-center mb-8">
@@ -47,7 +47,12 @@ function TelaFormulario({ habilidades, setHabilidades}: Props) {
         </p>
       </div>
       <div className="bg-bg-[var(--cor-bg)]">
-        <h2>DadosCard.tsx</h2>
+        <FormDados
+          data={data}
+          setData={setData}
+          links={links}
+          setLinks={setLinks}
+        />
       </div>
       <div>
         <FormHabilidades habilidades={ habilidades } setHabilidades={ setHabilidades } />
@@ -62,4 +67,3 @@ function TelaFormulario({ habilidades, setHabilidades}: Props) {
   );
 }
 
-export default TelaFormulario;

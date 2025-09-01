@@ -1,3 +1,5 @@
+import ResumePreview from "./ResumePreview";
+
 interface Habilidade {
   id: string;
   nome: string;
@@ -5,12 +7,14 @@ interface Habilidade {
 }
 
 interface Props {
+  data: any; 
+  links: any;
   habilidades: Habilidade[];
 }
 
 // export default TelaPreview;
 
-function TelaPreview({habilidades}: Props) {
+export default function TelaPreview({ data, links, habilidades }: Props) {
   return (
     <div className="p-8 font-geist">
       <div className="mb-6">
@@ -19,6 +23,9 @@ function TelaPreview({habilidades}: Props) {
           Visualização em tempo real das suas informações
         </p>
       </div>
+      <ResumePreview data={data} links={links} />
+
+      {/* habilidades */}
       <div className="mb-6">
         <h3 className="text-lg font-bold mb-2">Habilidades</h3>
         {habilidades.length === 0 ? (
@@ -37,5 +44,3 @@ function TelaPreview({habilidades}: Props) {
     </div>
   );
 }
-
-export default TelaPreview;
