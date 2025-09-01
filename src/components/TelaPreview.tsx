@@ -7,14 +7,12 @@ interface Habilidade {
 }
 
 interface Props {
-  data: any; 
+  data: any;
   links: any;
   habilidades: Habilidade[];
 }
 
-// export default TelaPreview;
-
-export default function TelaPreview({ data, links, habilidades }: Props) {
+export default function TelaPreview({ data, habilidades }: Props) {
   return (
     <div className="p-8 font-geist">
       <div className="mb-6">
@@ -23,7 +21,7 @@ export default function TelaPreview({ data, links, habilidades }: Props) {
           Visualização em tempo real das suas informações
         </p>
       </div>
-      <ResumePreview data={data} links={links} />
+      <ResumePreview data={data} />
 
       {/* habilidades */}
       <div className="mb-6">
@@ -40,7 +38,6 @@ export default function TelaPreview({ data, links, habilidades }: Props) {
           </ul>
         )}
       </div>
-      <div className="text-center">PreviewCard.tsx</div>
     </div>
   );
 }

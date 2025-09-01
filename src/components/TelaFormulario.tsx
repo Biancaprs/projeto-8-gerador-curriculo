@@ -1,5 +1,6 @@
 import type React from "react";
-import FormHabilidades from "./FormHabilidades";
+import FormHabilidades from "../FormHabilidades";
+import Experience from "./Experience";
 import FormDados from "./FormDados";
 
 interface Habilidade {
@@ -8,17 +9,40 @@ interface Habilidade {
   nivel: "Básico" | "Intermediário" | "Avançado";
 }
 
+interface ExperienceData {
+  empresa: string;
+  cargo: string;
+  localizacao: string;
+  remoto: boolean;
+  inicio: string;
+  fim: string;
+  atual: boolean;
+  descricao: string;
+}
+
 interface Props {
   habilidades: Habilidade[];
   setHabilidades: React.Dispatch<React.SetStateAction<Habilidade[]>>;
   data: any;
   setData: React.Dispatch<React.SetStateAction<any>>;
-  links: any[];
-  setLinks: React.Dispatch<React.SetStateAction<any[]>>;
+  experiences: ExperienceData[];
+  setExperiences: React.Dispatch<React.SetStateAction<ExperienceData[]>>;
+  experienceDraft: ExperienceData | null;
+  setExperienceDraft: React.Dispatch<
+    React.SetStateAction<ExperienceData | null>
+  >;
 }
-// export default TelaFormulario;
 
-export default function TelaFormulario({ habilidades, setHabilidades, data, setData, links, setLinks}: Props) {
+export default function TelaFormulario({
+  habilidades,
+  setHabilidades,
+  data,
+  setData,
+  experiences,
+  setExperiences,
+  experienceDraft,
+  setExperienceDraft,
+}: Props) {
   return (
     <div className="p-8 space-y-8 font-geist">
       <div className="text-center mb-8">
@@ -27,7 +51,7 @@ export default function TelaFormulario({ habilidades, setHabilidades, data, setD
           Crie seu currículo profissional com preview em tempo real
         </p>
       </div>
-      <div className="flex justify-center mb-6">
+      {/* <div className="flex justify-center mb-6">
         <button className="exportar-button has-[>svg]: px-4 outline-none shrink-0">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -50,25 +74,20 @@ export default function TelaFormulario({ habilidades, setHabilidades, data, setD
         <p className="text-center text-sm mt-2 ml-2">
           Preencha os campos obrigatórios para habilitar a exportação
         </p>
-      </div>
+      </div> */}
       <div className="bg-bg-[var(--cor-bg)]">
-        <FormDados
-          data={data}
-          setData={setData}
-          links={links}
-          setLinks={setLinks}
+        <FormDados data={data} setData={setData} />
+        <Experience
+          experiences={experiences ?? []}
+          setExperiences={setExperiences}
+          experienceDraft={experienceDraft}
+          setExperienceDraft={setExperienceDraft}
         />
-      </div>
-      <div>
-        <FormHabilidades habilidades={ habilidades } setHabilidades={ setHabilidades } />
-      </div>
-      <div>
-        <h2>ExperiênciasCard.tsx</h2>
-      </div>
-      <div>
-        <h2>FormaçãoCard.tsx</h2>
+        <FormHabilidades
+          habilidades={habilidades}
+          setHabilidades={setHabilidades}
+        />
       </div>
     </div>
   );
 }
-

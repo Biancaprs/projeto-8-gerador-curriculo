@@ -12,21 +12,40 @@ export default function App() {
     email: "",
     phone: "",
     linkedin: "",
-    links: "",
     summary: "",
   });
-  const [links, setLinks] = useState<{ title: string; url: string }[]>([]);
   const [habilidades, setHabilidades] = useState<Habilidade[]>([]);
+  const [experiences, setExperiences] = useState<any[]>([]);
+  const [experienceDraft, setExperienceDraft] = useState<any>({});
+  const [links] = useState<any[]>([]);
 
   return (
     <div className="grid grid-cols-2 h-screen p-4 gap-4 bg-slate-50">
-      <TelaFormulario habilidades={habilidades} setHabilidades={setHabilidades}
-        data={data}
-        setData={setData}
-        links={links}
-        setLinks={setLinks}
-      />
-      <TelaPreview habilidades={habilidades} data={data} links={links} />
+      <div className="h-full overflow-y-auto pr-2">
+        <TelaFormulario
+          habilidades={habilidades}
+          setHabilidades={setHabilidades}
+          data={data}
+          setData={setData}
+          experiences={experiences}
+          setExperiences={setExperiences}
+          experienceDraft={experienceDraft}
+          setExperienceDraft={setExperienceDraft}
+        />
+      </div>
+      <div className="h-full overflow-y-auto pr-2">
+        <TelaPreview
+          data={{
+            ...data,
+            experiences:
+              experienceDraft && Object.values(experienceDraft).some(Boolean)
+                ? [...experiences, experienceDraft]
+                : experiences,
+          }}
+          habilidades={habilidades}
+          links={links}
+        />
+      </div>
     </div>
   );
 }
