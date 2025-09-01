@@ -1,6 +1,6 @@
-export default TelaFormulario;
+import FormDados from "./FormDados";
 
-function TelaFormulario() {
+export default function TelaFormulario({ data, setData, links, setLinks }) {
   return (
     <div className="p-8 space-y-8 font-geist">
       <div className="text-center mb-8">
@@ -34,7 +34,12 @@ function TelaFormulario() {
         </p>
       </div>
       <div className="bg-bg-[var(--cor-bg)]">
-        <h2>DadosCard.tsx</h2>
+        <FormDados
+          data={data}
+          setData={setData}
+          links={links}
+          setLinks={setLinks}
+        />
       </div>
       <div>
         <h2>HabilidadesCard.tsx</h2>

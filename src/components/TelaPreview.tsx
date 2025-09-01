@@ -1,6 +1,6 @@
-export default TelaPreview;
+import ResumePreview from "./ResumePreview";
 
-function TelaPreview() {
+export default function TelaPreview({ data, links }) {
   return (
     <div className="p-8 font-geist">
       <div className="mb-6">
@@ -9,7 +9,7 @@ function TelaPreview() {
           Visualização em tempo real das suas informações
         </p>
       </div>
-      <div className="text-center">PreviewCard.tsx</div>
+      <ResumePreview data={data} links={links} />
     </div>
   );
 }
