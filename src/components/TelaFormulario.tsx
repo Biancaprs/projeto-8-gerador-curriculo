@@ -1,5 +1,6 @@
 import type React from "react";
 import FormHabilidades from "../FormHabilidades";
+import FormDados from "./FormDados";
 
 interface Habilidade {
   id: string;
@@ -10,10 +11,14 @@ interface Habilidade {
 interface Props {
   habilidades: Habilidade[];
   setHabilidades: React.Dispatch<React.SetStateAction<Habilidade[]>>;
+  data: any;
+  setData: React.Dispatch<React.SetStateAction<any>>;
+  links: any[];
+  setLinks: React.Dispatch<React.SetStateAction<any[]>>;
 }
 // export default TelaFormulario;
 
-export default function TelaFormulario({ habilidades, setHabilidades}: Props) {
+export default function TelaFormulario({ habilidades, setHabilidades, data, setData, links, setLinks}: Props) {
   return (
     <div className="p-8 space-y-8 font-geist">
       <div className="text-center mb-8">
