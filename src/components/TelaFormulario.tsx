@@ -1,6 +1,24 @@
+import type React from "react";
+import FormHabilidades from "../FormHabilidades";
 import FormDados from "./FormDados";
 
-export default function TelaFormulario({ data, setData, links, setLinks }) {
+interface Habilidade {
+  id: string;
+  nome: string;
+  nivel: "Básico" | "Intermediário" | "Avançado";
+}
+
+interface Props {
+  habilidades: Habilidade[];
+  setHabilidades: React.Dispatch<React.SetStateAction<Habilidade[]>>;
+  data: any;
+  setData: React.Dispatch<React.SetStateAction<any>>;
+  links: any[];
+  setLinks: React.Dispatch<React.SetStateAction<any[]>>;
+}
+// export default TelaFormulario;
+
+export default function TelaFormulario({ habilidades, setHabilidades, data, setData, links, setLinks}: Props) {
   return (
     <div className="p-8 space-y-8 font-geist">
       <div className="text-center mb-8">
@@ -42,7 +60,7 @@ export default function TelaFormulario({ data, setData, links, setLinks }) {
         />
       </div>
       <div>
-        <h2>HabilidadesCard.tsx</h2>
+        <FormHabilidades habilidades={ habilidades } setHabilidades={ setHabilidades } />
       </div>
       <div>
         <h2>ExperiênciasCard.tsx</h2>
@@ -53,3 +71,4 @@ export default function TelaFormulario({ data, setData, links, setLinks }) {
     </div>
   );
 }
+
