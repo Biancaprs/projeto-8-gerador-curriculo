@@ -1,5 +1,3 @@
-import LinksAdicionais from "../components/LinksAdicionais";
-
 export const MAX_SUMMARY_CHARS = 300;
 
 export function validate(data: any) {
@@ -12,5 +10,5 @@ export function validate(data: any) {
   if (!data.summary) errors.summary = "";
   if (data.summary && data.summary.length > MAX_SUMMARY_CHARS)
     errors.summary = `Máximo ${MAX_SUMMARY_CHARS} caracteres`;
-  return errors;  
+  return errors;
 }
