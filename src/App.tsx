@@ -1,35 +1,51 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
-function App() {
-  const [count, setCount] = useState(0)
+import { useState } from "react";
+import TelaFormulario from "./components/TelaFormulario";
+import TelaPreview from "./components/TelaPreview";
+interface Habilidade {
+  id: string;
+  nome: string;
+  nivel: "Básico" | "Intermediário" | "Avançado";
+}
+export default function App() {
+  const [data, setData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    linkedin: "",
+    summary: "",
+  });
+  const [habilidades, setHabilidades] = useState<Habilidade[]>([]);
+  const [experiences, setExperiences] = useState<any[]>([]);
+  const [experienceDraft, setExperienceDraft] = useState<any>({});
+  const [links] = useState<any[]>([]);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="grid grid-cols-2 h-screen p-4 gap-4 bg-slate-50">
+      <div className="h-full overflow-y-auto pr-2">
+        <TelaFormulario
+          habilidades={habilidades}
+          setHabilidades={setHabilidades}
+          data={data}
+          setData={setData}
+          experiences={experiences}
+          setExperiences={setExperiences}
+          experienceDraft={experienceDraft}
+          setExperienceDraft={setExperienceDraft}
+        />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+      <div className="h-full overflow-y-auto pr-2">
+        <TelaPreview
+          data={{
+            ...data,
+            experiences:
+              experienceDraft && Object.values(experienceDraft).some(Boolean)
+                ? [...experiences, experienceDraft]
+                : experiences,
+          }}
+          habilidades={habilidades}
+          links={links}
+        />
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
-
-export default App
