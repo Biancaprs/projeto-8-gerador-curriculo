@@ -40,9 +40,8 @@ export default function App() {
             experiences:
               experienceDraft && Object.values(experienceDraft).some(Boolean)
                 ? [...experiences, experienceDraft]
-                : experiences,
+                : experiences, habilidades
           }}
-          habilidades={habilidades}
           links={links}
         />
       </div>

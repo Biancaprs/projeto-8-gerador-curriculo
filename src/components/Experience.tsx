@@ -39,14 +39,29 @@ export default function Experience({
   const [data, setData] = useState<ExperienceData>(initialData);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [showForm, setShowForm] = useState(false);
+  const [errors, setErrors] = useState<{ empresa?: string; cargo?: string }>({});
 
   function update(key: keyof ExperienceData, value: any) {
     const newData = { ...data, [key]: value };
     setData(newData);
     setExperienceDraft(newData);
+
+    if (errors[key as "empresa" | "cargo"]) {
+      setErrors((prev) => ({ ...prev, [key]: undefined }));
+    }
   }
 
+  function validate() {
+    const newErrors: { empresa?: string; cargo?: string } = {};
+    if (!data.empresa.trim()) newErrors.empresa = "O nome da empresa é obrigatório.";
+    if (!data.cargo.trim()) newErrors.cargo = "O cargo é obrigatório.";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  }
+  
+
   function handleAdd() {
+    if (!validate()) return;
     setExperiences([...experiences, data]);
     setData(initialData);
     setShowForm(false);
@@ -62,6 +77,7 @@ export default function Experience({
   }
 
   function handleSaveEdit() {
+    if (!validate()) return;
     if (editingIndex !== null) {
       const updated = [...experiences];
       updated[editingIndex] = data;
@@ -91,6 +107,7 @@ export default function Experience({
     setExperienceDraft(null);
   }
 
+
   return (
     <SectionCard title="Experiência Profissional">
       <button
@@ -100,6 +117,7 @@ export default function Experience({
           setEditingIndex(null);
           setData(initialData);
           setExperienceDraft(initialData);
+          setErrors({});
         }}
       >
         + Adicionar Experiência
@@ -113,12 +131,14 @@ export default function Experience({
               placeholder="Nome da empresa"
               value={data.empresa}
               onChange={(e) => update("empresa", e.target.value)}
+              error={errors.empresa}
             />
             <TextInput
               label="Cargo*"
               placeholder="Seu cargo"
               value={data.cargo}
               onChange={(e) => update("cargo", e.target.value)}
+              error={errors.empresa}
             />
           </div>
           <div className="flex gap-2 mt-2">
