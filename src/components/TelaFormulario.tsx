@@ -1,7 +1,9 @@
-import type React from "react";
+import { useState } from "react";
 import FormHabilidades from "./FormHabilidades";
 import Experience from "./Experience";
 import FormDados from "./FormDados";
+import CampoComMelhoria from "./CampoComMelhoria";
+
 
 interface Habilidade {
   id: string;
@@ -43,6 +45,8 @@ export default function TelaFormulario({
   experienceDraft,
   setExperienceDraft,
 }: Props) {
+  const [resumo, setResumo] = useState("");
+  
   return (
     <div className="p-8 space-y-8 font-geist">
       <div className="text-center mb-8">
@@ -51,30 +55,7 @@ export default function TelaFormulario({
           Crie seu currículo profissional com preview em tempo real
         </p>
       </div>
-      {/* <div className="flex justify-center mb-6">
-        <button className="exportar-button has-[>svg]: px-4 outline-none shrink-0">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            className="lucide lucide-download  h-4 w-4"
-          >
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-            <polyline points="7 10 12 15 17 10"></polyline>
-            <line x1="12" x2="12" y1="15" y2="3"></line>
-          </svg>
-          Exportar PDF
-        </button>
-        <p className="text-center text-sm mt-2 ml-2">
-          Preencha os campos obrigatórios para habilitar a exportação
-        </p>
-      </div> */}
+
       <div className="bg-bg-[var(--cor-bg)]">
         <FormDados data={data} setData={setData} />
         <Experience

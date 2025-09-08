@@ -1,6 +1,7 @@
 import SectionCard from "./SectionCard";
 import TextInput from "./TextInput";
 import TextArea from "./TextArea";
+import CampoComMelhoria from  "./CampoComMelhoria";
 import { MAX_SUMMARY_CHARS, validate } from "../utils/validation";
 
 type DadosPessoais = {
@@ -54,11 +55,12 @@ export default function FormDados({ data, setData }: FormDadosProps) {
         onChange={(e) => update("linkedin", e.target.value)}
         error={errors.linkedin}
       />
-      <TextArea
-        label="Resumo"
-        placeholder="Descreva brevemente sua experiência e objetivos profissionais..."
-        value={data.summary}
-        onChange={(e) => update("summary", e.target.value)}
+
+      <CampoComMelhoria
+        label="Resumo Profissional"
+        valor={data.summary}
+        onChange={(valor) => setData({ ...data, summary: valor })}
+        tipo="textarea"
         error={errors.summary}
       />
       <p className="text-xs text-slate-500 mt-1">
