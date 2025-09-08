@@ -19,7 +19,6 @@ export default function App() {
   const [habilidades, setHabilidades] = useState<Habilidade[]>([]);
   const [experiences, setExperiences] = useState<any[]>([]);
   const [experienceDraft, setExperienceDraft] = useState<any>({});
-  const [links] = useState<any[]>([]);
 
   return (
     <div className="grid grid-cols-2 h-screen p-4 gap-4 bg-slate-50">
