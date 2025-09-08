@@ -75,6 +75,17 @@ export default function ResumePreview({ data }: { data: any }) {
         </div>
       ))}
       <hr className="my-6" />
+
+      <h2 className="font-semibold text-lg mb-2">Habilidades</h2>
+      {(data.habilidades && data.habilidades.length > 0
+        ? data.habilidades
+        : [{ nome: "Exemplo: JavaScript", nivel: "Avançado" }]
+      ).map((hab: any, idx: number) => (
+        <div key={idx} className="mb-2">
+          <span className="font-medium">{hab.nome}</span> —{" "}
+          <span className="text-slate-600">{hab.nivel}</span>
+        </div>
+      ))}
     </div>
   );
 }

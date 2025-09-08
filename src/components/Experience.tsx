@@ -1,6 +1,7 @@
 import { useState } from "react";
 import SectionCard from "./SectionCard";
 import TextInput from "./TextInput";
+import CampoComMelhoria from  "./CampoComMelhoria";
 
 type ExperienceData = {
   empresa: string;
@@ -39,14 +40,29 @@ export default function Experience({
   const [data, setData] = useState<ExperienceData>(initialData);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [showForm, setShowForm] = useState(false);
+  const [errors, setErrors] = useState<{ empresa?: string; cargo?: string }>({});
 
   function update(key: keyof ExperienceData, value: any) {
     const newData = { ...data, [key]: value };
     setData(newData);
     setExperienceDraft(newData);
+
+    if (errors[key as "empresa" | "cargo"]) {
+      setErrors((prev) => ({ ...prev, [key]: undefined }));
+    }
   }
 
+  function validate() {
+    const newErrors: { empresa?: string; cargo?: string } = {};
+    if (!data.empresa.trim()) newErrors.empresa = "O nome da empresa é obrigatório.";
+    if (!data.cargo.trim()) newErrors.cargo = "O cargo é obrigatório.";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  }
+
+
   function handleAdd() {
+    if (!validate()) return;
     setExperiences([...experiences, data]);
     setData(initialData);
     setShowForm(false);
@@ -62,6 +78,7 @@ export default function Experience({
   }
 
   function handleSaveEdit() {
+    if (!validate()) return;
     if (editingIndex !== null) {
       const updated = [...experiences];
       updated[editingIndex] = data;
@@ -91,6 +108,7 @@ export default function Experience({
     setExperienceDraft(null);
   }
 
+
   return (
     <SectionCard title="Experiência Profissional">
       <button
@@ -100,6 +118,7 @@ export default function Experience({
           setEditingIndex(null);
           setData(initialData);
           setExperienceDraft(initialData);
+          setErrors({});
         }}
       >
         + Adicionar Experiência
@@ -113,12 +132,14 @@ export default function Experience({
               placeholder="Nome da empresa"
               value={data.empresa}
               onChange={(e) => update("empresa", e.target.value)}
+              error={errors.empresa}
             />
             <TextInput
               label="Cargo*"
               placeholder="Seu cargo"
               value={data.cargo}
               onChange={(e) => update("cargo", e.target.value)}
+              error={errors.empresa}
             />
           </div>
           <div className="flex gap-2 mt-2">
@@ -174,11 +195,12 @@ export default function Experience({
             <label className="block text-sm font-medium mb-1">
               Descrição das Atividades
             </label>
-            <textarea
-              className="border px-2 py-1 rounded w-full"
-              placeholder="Descreva suas principais responsabilidades e conquistas..."
-              value={data.descricao}
-              onChange={(e) => update("descricao", e.target.value)}
+            
+            <CampoComMelhoria
+              valor={data.descricao}
+              onChange={(valor) => update("descricao", valor)}
+              tipo="textarea"
+              error={undefined} 
             />
           </div>
           <div className="flex gap-2 mt-4">
@@ -222,19 +244,19 @@ export default function Experience({
               <div className="text-slate-500 text-sm">
                 {exp.inicio
                   ? new Date(exp.inicio + "-01").toLocaleString("pt-BR", {
-                      month: "long",
-                      year: "numeric",
-                    })
+                    month: "long",
+                    year: "numeric",
+                  })
                   : "Mês/Ano"}{" "}
                 -{" "}
                 {exp.atual
                   ? "Atual"
                   : exp.fim
-                  ? new Date(exp.fim + "-01").toLocaleString("pt-BR", {
+                    ? new Date(exp.fim + "-01").toLocaleString("pt-BR", {
                       month: "long",
                       year: "numeric",
                     })
-                  : "Mês/Ano"}
+                    : "Mês/Ano"}
               </div>
               <div className="text-slate-700">{exp.descricao}</div>
               <div className="absolute top-2 right-2 flex gap-2">

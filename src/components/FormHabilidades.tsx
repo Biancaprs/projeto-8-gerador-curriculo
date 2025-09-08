@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import SectionCard from "./SectionCard";
 import TextInput from "./TextInput";
-import { FaPen } from "react-icons/fa";
+
 
 interface Habilidade {
   id: string;
@@ -14,111 +14,169 @@ interface Props {
   setHabilidades: React.Dispatch<React.SetStateAction<Habilidade[]>>;
 }
 
+const initialData: Habilidade = {
+  id: "",
+  nome: "",
+  nivel: "Básico",
+};
+
 export default function FormHabilidades({ habilidades, setHabilidades }: Props) {
-  const [nome, setNome] = useState("");
-  const [nivel, setNivel] = useState<"Básico" | "Intermediário" | "Avançado">("Básico");
-  const [editandoId, setEditandoId] = useState<string | null>(null);
+  const [data, setData] = useState<Habilidade>(initialData);
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [showForm, setShowForm] = useState(false);
+  const [error, setError] = useState("");
 
-  function adicionarOuEditarHabilidade() {
-    if (nome.trim() === "") return;
-
-    if (editandoId) {
-      setHabilidades((prev) =>
-        prev.map((h) =>
-          h.id === editandoId ? { ...h, nome, nivel } : h
-        )
-      );
-      setEditandoId(null);
-    } else {
-      setHabilidades((prev) => [
-        ...prev,
-        { id: crypto.randomUUID(), nome, nivel }
-      ]);
-    }
-
-    setNome("");
-    setNivel("Básico");
-  }
-
-  function removerHabilidade(id: string) {
-    setHabilidades((prev) => prev.filter((h) => h.id !== id));
-    if (editandoId === id) {
-      setEditandoId(null);
-      setNome("");
-      setNivel("Básico");
+  function update(key: keyof Habilidade, value: any) {
+    setData({ ...data, [key]: value });
+    if (key === "nome" && value.trim() !== "") {
+      setError(""); // limpa erro ao digitar
     }
   }
 
-  function editarHabilidade(habilidade: Habilidade) {
-    setEditandoId(habilidade.id);
-    setNome(habilidade.nome);
-    setNivel(habilidade.nivel);
+  function handleAdd() {
+    if (data.nome.trim() === "") {
+      setError("O nome da habilidade é obrigatório.");
+      return;
+    }
+    setHabilidades([...habilidades, { ...data, id: Date.now().toString() }]);
+    resetForm();
+  }
+
+  function handleEdit(idx: number) {
+    setEditingIndex(idx);
+    setData(habilidades[idx]);
+    setShowForm(true);
+    setError("");
+  }
+
+  function handleSaveEdit() {
+
+    if (editingIndex !== null) {
+      const updated = [...habilidades];
+      updated[editingIndex] = data;
+      setHabilidades(updated);
+      resetForm();
+    }
+  }
+
+  function handleRemove(idx: number) {
+    setHabilidades(habilidades.filter((_, i) => i !== idx));
+    if (editingIndex === idx) {
+      resetForm();
+    }
+  }
+
+  function handleCancel() {
+    resetForm();
+  }
+
+  function resetForm() {
+    setEditingIndex(null);
+    setData(initialData);
+    setShowForm(false);
+    setError("");
   }
 
   return (
     <SectionCard title="Habilidades">
-      <div className="flex gap-2 mb-4">
-        <TextInput
-          label="Nome da habilidade"
-          placeholder="Ex: JavaScript"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
-        />
+      <button
+        className="mb-4 px-4 py-2 rounded bg-gray-100 border border-gray-300"
+        onClick={() => {
+          setShowForm(true);
+          setEditingIndex(null);
+          setData(initialData);
+          setError("");
+        }}
+      >
+        + Adicionar Habilidade
+      </button>
 
-        <div className="flex flex-col w-40">
-          <label className="text-sm font-medium text-slate-700 mb-1">
-            Nível
-          </label>
-          <select
-            value={nivel}
-            onChange={(e) =>
-              setNivel(e.target.value as "Básico" | "Intermediário" | "Avançado")
-            }
-            className="border rounded p-2 text-sm"
-          >
-            <option value="Básico">Básico</option>
-            <option value="Intermediário">Intermediário</option>
-            <option value="Avançado">Avançado</option>
-          </select>
-        </div>
-
-        <button
-          type="button"
-          onClick={adicionarOuEditarHabilidade}
-          className={`self-end ${editandoId ? "bg-green-500 hover:bg-green-600" : "bg-blue-500 hover:bg-blue-600"
-            } text-white px-4 py-2 rounded text-sm font-medium`}
-        >
-          {editandoId ? "Salvar" : "Adicionar"}
-        </button>
-      </div>
-
-      <ul className="space-y-2">
-        {habilidades.map((h) => (
-          <li
-            key={h.id}
-            className="flex justify-between items-center border p-2 rounded"
-          >
-            <span className="text-sm">
-              {h.nome} – {h.nivel}
-            </span>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => editarHabilidade(h)}
-                className="text-yellow-500 hover:text-yellow-600 text-sm"
-                title="Editar"
-              >
-                <FaPen />
-              </button>
-              <button
-                onClick={() => removerHabilidade(h.id)}
-                className="text-red-500 hover:underline text-sm"
-              >
-                Remover
-              </button>
+      {showForm && (
+        <div className="mb-4 p-4 border-2 border-dashed border-purple-400 rounded">
+          <div className="flex gap-2">
+            <div className="flex-1">
+              <TextInput
+                label="Nome da habilidade*"
+                placeholder="Ex: JavaScript"
+                value={data.nome}
+                onChange={(e) => update("nome", e.target.value)}
+                error={error}
+              />
             </div>
-          </li>
-        ))}
-      </ul>
+
+            <div className="flex-1">
+              <label className="block text-sm font-medium mb-1">Nível</label>
+              <select
+                value={data.nivel}
+                onChange={(e) =>
+                  update("nivel", e.target.value as "Básico" | "Intermediário" | "Avançado")
+                }
+                className="border rounded px-2 py-1 w-full"
+              >
+                <option value="Básico">Básico</option>
+                <option value="Intermediário">Intermediário</option>
+                <option value="Avançado">Avançado</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="flex gap-2 mt-4">
+            {editingIndex === null ? (
+              <button
+                className="bg-black text-white px-4 py-1 rounded"
+                onClick={handleAdd}
+              >
+                Adicionar
+              </button>
+            ) : (
+              <button
+                className="bg-black text-white px-4 py-1 rounded"
+                onClick={handleSaveEdit}
+              >
+                Salvar
+              </button>
+            )}
+            <button
+              className="bg-white border px-4 py-1 rounded"
+              onClick={handleCancel}
+            >
+              Cancelar
+            </button>
+          </div>
+        </div>
+      )}
+
+      {habilidades.length > 0 && (
+        <div className="space-y-4">
+          {habilidades.map((h, idx) => (
+            <div
+              key={h.id}
+              className="bg-white rounded-lg shadow p-4 flex justify-between items-center relative"
+            >
+              <div>
+                <div className="font-bold text-base">{h.nome}</div>
+                <div className="text-slate-700 text-sm">{h.nivel}</div>
+              </div>
+              <div className="absolute top-2 right-2 flex gap-2">
+                <button
+                  className="text-blue-600"
+                  onClick={() => handleEdit(idx)}
+                  title="Editar"
+                >
+                  ✎
+                </button>
+                <button
+                  className="text-red-600"
+                  onClick={() => handleRemove(idx)}
+                  title="Remover"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </SectionCard>
   );
 }
