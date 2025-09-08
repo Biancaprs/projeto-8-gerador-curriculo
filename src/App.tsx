@@ -1,6 +1,8 @@
 import { useState } from "react";
 import TelaFormulario from "./components/TelaFormulario";
 import TelaPreview from "./components/TelaPreview";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 interface Habilidade {
   id: string;
   nome: string;
@@ -40,11 +42,12 @@ export default function App() {
             experiences:
               experienceDraft && Object.values(experienceDraft).some(Boolean)
                 ? [...experiences, experienceDraft]
-                : experiences, habilidades
+                : experiences,
+            habilidades,
           }}
-          links={links}
         />
       </div>
+      <ToastContainer />
     </div>
   );
 }
