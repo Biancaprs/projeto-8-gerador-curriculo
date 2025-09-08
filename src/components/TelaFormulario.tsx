@@ -1,9 +1,6 @@
-import { useState } from "react";
 import FormHabilidades from "./FormHabilidades";
 import Experience from "./Experience";
 import FormDados from "./FormDados";
-import CampoComMelhoria from "./CampoComMelhoria";
-
 
 interface Habilidade {
   id: string;
@@ -30,9 +27,8 @@ interface Props {
   experiences: ExperienceData[];
   setExperiences: React.Dispatch<React.SetStateAction<ExperienceData[]>>;
   experienceDraft: ExperienceData | null;
-  setExperienceDraft: React.Dispatch<
-    React.SetStateAction<ExperienceData | null>
-  >;
+  setExperienceDraft: React.Dispatch<React.SetStateAction<ExperienceData | null>>;
+  loading: boolean; // ✅ Nova prop recebida
 }
 
 export default function TelaFormulario({
@@ -44,9 +40,8 @@ export default function TelaFormulario({
   setExperiences,
   experienceDraft,
   setExperienceDraft,
+  loading, // ✅ Usado agora
 }: Props) {
-  const [resumo, setResumo] = useState("");
-  
   return (
     <div className="p-8 space-y-8 font-geist">
       <div className="text-center mb-8">
@@ -57,16 +52,18 @@ export default function TelaFormulario({
       </div>
 
       <div className="bg-bg-[var(--cor-bg)]">
-        <FormDados data={data} setData={setData} />
+        <FormDados data={data} setData={setData} loading={loading} />
         <Experience
           experiences={experiences ?? []}
           setExperiences={setExperiences}
           experienceDraft={experienceDraft}
           setExperienceDraft={setExperienceDraft}
+          loading={loading}
         />
         <FormHabilidades
           habilidades={habilidades}
           setHabilidades={setHabilidades}
+          loading={loading}
         />
       </div>
     </div>

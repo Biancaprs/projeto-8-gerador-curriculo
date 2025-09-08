@@ -1,6 +1,11 @@
 import ResumePreview from "./ResumePreview";
 
-export default function TelaPreview({ data }: Props) {
+type Props = {
+  data: any;
+  loading: boolean;
+};
+
+export default function TelaPreview({ data, loading }: Props) {
   return (
     <div className="p-8 font-geist">
       <div className="mb-6">
@@ -9,7 +14,8 @@ export default function TelaPreview({ data }: Props) {
           Visualização em tempo real das suas informações
         </p>
       </div>
-      <ResumePreview data={data} />
+
+      <ResumePreview data={data} loading={loading} /> 
     </div>
   );
 }

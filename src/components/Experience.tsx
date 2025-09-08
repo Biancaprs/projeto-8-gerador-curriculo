@@ -1,7 +1,10 @@
 import { useState } from "react";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
 import SectionCard from "./SectionCard";
 import TextInput from "./TextInput";
-import CampoComMelhoria from  "./CampoComMelhoria";
+import CampoComMelhoria from "./CampoComMelhoria";
 
 type ExperienceData = {
   empresa: string;
@@ -30,12 +33,15 @@ type ExperienceProps = {
   setExperiences: (exps: ExperienceData[]) => void;
   experienceDraft: ExperienceData | null;
   setExperienceDraft: (exp: ExperienceData | null) => void;
+  loading?: boolean; // <-- NOVO
 };
 
 export default function Experience({
   experiences,
   setExperiences,
+  experienceDraft,
   setExperienceDraft,
+  loading = false, // <-- valor padrão
 }: ExperienceProps) {
   const [data, setData] = useState<ExperienceData>(initialData);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
@@ -59,7 +65,6 @@ export default function Experience({
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   }
-
 
   function handleAdd() {
     if (!validate()) return;
@@ -92,7 +97,6 @@ export default function Experience({
 
   function handleRemove(idx: number) {
     setExperiences(experiences.filter((_, i) => i !== idx));
-    // Se estiver editando o mesmo índice, limpe o draft e feche o form
     if (editingIndex === idx) {
       setEditingIndex(null);
       setData(initialData);
@@ -107,7 +111,6 @@ export default function Experience({
     setShowForm(false);
     setExperienceDraft(null);
   }
-
 
   return (
     <SectionCard title="Experiência Profissional">
@@ -139,7 +142,7 @@ export default function Experience({
               placeholder="Seu cargo"
               value={data.cargo}
               onChange={(e) => update("cargo", e.target.value)}
-              error={errors.empresa}
+              error={errors.cargo}
             />
           </div>
           <div className="flex gap-2 mt-2">
@@ -195,12 +198,11 @@ export default function Experience({
             <label className="block text-sm font-medium mb-1">
               Descrição das Atividades
             </label>
-            
             <CampoComMelhoria
               valor={data.descricao}
               onChange={(valor) => update("descricao", valor)}
               tipo="textarea"
-              error={undefined} 
+              error={undefined}
             />
           </div>
           <div className="flex gap-2 mt-4">
@@ -229,7 +231,23 @@ export default function Experience({
         </div>
       )}
 
-      {experiences.length > 0 && (
+      {/* Skeleton ou Lista de Experiências */}
+      {loading ? (
+        <div className="space-y-4">
+          {[...Array(2)].map((_, idx) => (
+            <div
+              key={idx}
+              className="bg-white rounded-lg shadow p-4 space-y-2 animate-pulse"
+            >
+              <Skeleton height={20} width="40%" />
+              <Skeleton height={18} width="30%" />
+              <Skeleton height={16} width="25%" />
+              <Skeleton height={16} width="50%" />
+              <Skeleton height={60} />
+            </div>
+          ))}
+        </div>
+      ) : experiences.length > 0 ? (
         <div className="space-y-4">
           {experiences.map((exp, idx) => (
             <div
@@ -244,19 +262,19 @@ export default function Experience({
               <div className="text-slate-500 text-sm">
                 {exp.inicio
                   ? new Date(exp.inicio + "-01").toLocaleString("pt-BR", {
-                    month: "long",
-                    year: "numeric",
-                  })
+                      month: "long",
+                      year: "numeric",
+                    })
                   : "Mês/Ano"}{" "}
                 -{" "}
                 {exp.atual
                   ? "Atual"
                   : exp.fim
-                    ? new Date(exp.fim + "-01").toLocaleString("pt-BR", {
+                  ? new Date(exp.fim + "-01").toLocaleString("pt-BR", {
                       month: "long",
                       year: "numeric",
                     })
-                    : "Mês/Ano"}
+                  : "Mês/Ano"}
               </div>
               <div className="text-slate-700">{exp.descricao}</div>
               <div className="absolute top-2 right-2 flex gap-2">
@@ -278,7 +296,7 @@ export default function Experience({
             </div>
           ))}
         </div>
-      )}
+      ) : null}
     </SectionCard>
   );
 }

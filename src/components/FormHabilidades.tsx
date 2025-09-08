@@ -1,7 +1,9 @@
 import { useState } from "react";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
 import SectionCard from "./SectionCard";
 import TextInput from "./TextInput";
-
 
 interface Habilidade {
   id: string;
@@ -12,6 +14,7 @@ interface Habilidade {
 interface Props {
   habilidades: Habilidade[];
   setHabilidades: React.Dispatch<React.SetStateAction<Habilidade[]>>;
+  loading?: boolean; // 👈 Adicionado suporte à prop loading
 }
 
 const initialData: Habilidade = {
@@ -20,7 +23,11 @@ const initialData: Habilidade = {
   nivel: "Básico",
 };
 
-export default function FormHabilidades({ habilidades, setHabilidades }: Props) {
+export default function FormHabilidades({
+  habilidades,
+  setHabilidades,
+  loading = false, // 👈 valor padrão
+}: Props) {
   const [data, setData] = useState<Habilidade>(initialData);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [showForm, setShowForm] = useState(false);
@@ -29,7 +36,7 @@ export default function FormHabilidades({ habilidades, setHabilidades }: Props) 
   function update(key: keyof Habilidade, value: any) {
     setData({ ...data, [key]: value });
     if (key === "nome" && value.trim() !== "") {
-      setError(""); // limpa erro ao digitar
+      setError("");
     }
   }
 
@@ -50,7 +57,6 @@ export default function FormHabilidades({ habilidades, setHabilidades }: Props) 
   }
 
   function handleSaveEdit() {
-
     if (editingIndex !== null) {
       const updated = [...habilidades];
       updated[editingIndex] = data;
@@ -109,7 +115,10 @@ export default function FormHabilidades({ habilidades, setHabilidades }: Props) 
               <select
                 value={data.nivel}
                 onChange={(e) =>
-                  update("nivel", e.target.value as "Básico" | "Intermediário" | "Avançado")
+                  update(
+                    "nivel",
+                    e.target.value as "Básico" | "Intermediário" | "Avançado"
+                  )
                 }
                 className="border rounded px-2 py-1 w-full"
               >
@@ -146,7 +155,22 @@ export default function FormHabilidades({ habilidades, setHabilidades }: Props) 
         </div>
       )}
 
-      {habilidades.length > 0 && (
+      {/* ⬇️ Lista de habilidades OU Skeleton ⬇️ */}
+      {loading ? (
+        <div className="space-y-4">
+          {[...Array(2)].map((_, idx) => (
+            <div
+              key={idx}
+              className="bg-white rounded-lg shadow p-4 flex justify-between items-center"
+            >
+              <div className="w-full">
+                <Skeleton height={20} width="40%" />
+                <Skeleton height={16} width="30%" className="mt-1" />
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : habilidades.length > 0 ? (
         <div className="space-y-4">
           {habilidades.map((h, idx) => (
             <div
@@ -176,7 +200,7 @@ export default function FormHabilidades({ habilidades, setHabilidades }: Props) 
             </div>
           ))}
         </div>
-      )}
+      ) : null}
     </SectionCard>
   );
 }
