@@ -1,7 +1,6 @@
 import SectionCard from "./SectionCard";
 import TextInput from "./TextInput";
-import TextArea from "./TextArea";
-import CampoComMelhoria from  "./CampoComMelhoria";
+import CampoComMelhoria from "./CampoComMelhoria";
 import { MAX_SUMMARY_CHARS, validate } from "../utils/validation";
 
 type DadosPessoais = {

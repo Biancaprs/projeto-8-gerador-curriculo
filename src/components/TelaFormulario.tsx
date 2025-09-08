@@ -1,9 +1,6 @@
-import { useState } from "react";
 import FormHabilidades from "./FormHabilidades";
 import Experience from "./Experience";
 import FormDados from "./FormDados";
-import CampoComMelhoria from "./CampoComMelhoria";
-
 
 interface Habilidade {
   id: string;
@@ -45,8 +42,6 @@ export default function TelaFormulario({
   experienceDraft,
   setExperienceDraft,
 }: Props) {
-  const [resumo, setResumo] = useState("");
-  
   return (
     <div className="p-8 space-y-8 font-geist">
       <div className="text-center mb-8">

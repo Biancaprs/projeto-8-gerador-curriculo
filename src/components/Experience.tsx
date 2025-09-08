@@ -1,7 +1,7 @@
 import { useState } from "react";
 import SectionCard from "./SectionCard";
 import TextInput from "./TextInput";
-import CampoComMelhoria from  "./CampoComMelhoria";
+import CampoComMelhoria from "./CampoComMelhoria";
 
 type ExperienceData = {
   empresa: string;
@@ -40,7 +40,9 @@ export default function Experience({
   const [data, setData] = useState<ExperienceData>(initialData);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [showForm, setShowForm] = useState(false);
-  const [errors, setErrors] = useState<{ empresa?: string; cargo?: string }>({});
+  const [errors, setErrors] = useState<{ empresa?: string; cargo?: string }>(
+    {}
+  );
 
   function update(key: keyof ExperienceData, value: any) {
     const newData = { ...data, [key]: value };
@@ -54,12 +56,12 @@ export default function Experience({
 
   function validate() {
     const newErrors: { empresa?: string; cargo?: string } = {};
-    if (!data.empresa.trim()) newErrors.empresa = "O nome da empresa é obrigatório.";
+    if (!data.empresa.trim())
+      newErrors.empresa = "O nome da empresa é obrigatório.";
     if (!data.cargo.trim()) newErrors.cargo = "O cargo é obrigatório.";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   }
-
 
   function handleAdd() {
     if (!validate()) return;
@@ -107,7 +109,6 @@ export default function Experience({
     setShowForm(false);
     setExperienceDraft(null);
   }
-
 
   return (
     <SectionCard title="Experiência Profissional">
@@ -195,12 +196,13 @@ export default function Experience({
             <label className="block text-sm font-medium mb-1">
               Descrição das Atividades
             </label>
-            
+
             <CampoComMelhoria
+              label="Descrição das Atividades"
               valor={data.descricao}
               onChange={(valor) => update("descricao", valor)}
               tipo="textarea"
-              error={undefined} 
+              error={undefined}
             />
           </div>
           <div className="flex gap-2 mt-4">
@@ -244,19 +246,19 @@ export default function Experience({
               <div className="text-slate-500 text-sm">
                 {exp.inicio
                   ? new Date(exp.inicio + "-01").toLocaleString("pt-BR", {
-                    month: "long",
-                    year: "numeric",
-                  })
+                      month: "long",
+                      year: "numeric",
+                    })
                   : "Mês/Ano"}{" "}
                 -{" "}
                 {exp.atual
                   ? "Atual"
                   : exp.fim
-                    ? new Date(exp.fim + "-01").toLocaleString("pt-BR", {
+                  ? new Date(exp.fim + "-01").toLocaleString("pt-BR", {
                       month: "long",
                       year: "numeric",
                     })
-                    : "Mês/Ano"}
+                  : "Mês/Ano"}
               </div>
               <div className="text-slate-700">{exp.descricao}</div>
               <div className="absolute top-2 right-2 flex gap-2">

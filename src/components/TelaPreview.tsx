@@ -1,5 +1,9 @@
 import ResumePreview from "./ResumePreview";
 
+type Props = {
+  data: any;
+};
+
 export default function TelaPreview({ data }: Props) {
   return (
     <div className="p-8 font-geist">
