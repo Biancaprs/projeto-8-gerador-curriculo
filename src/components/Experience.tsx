@@ -1,6 +1,7 @@
 import { useState } from "react";
 import SectionCard from "./SectionCard";
 import TextInput from "./TextInput";
+import CampoComMelhoria from  "./CampoComMelhoria";
 
 type ExperienceData = {
   empresa: string;
@@ -58,7 +59,7 @@ export default function Experience({
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   }
-  
+
 
   function handleAdd() {
     if (!validate()) return;
@@ -194,11 +195,12 @@ export default function Experience({
             <label className="block text-sm font-medium mb-1">
               Descrição das Atividades
             </label>
-            <textarea
-              className="border px-2 py-1 rounded w-full"
-              placeholder="Descreva suas principais responsabilidades e conquistas..."
-              value={data.descricao}
-              onChange={(e) => update("descricao", e.target.value)}
+            
+            <CampoComMelhoria
+              valor={data.descricao}
+              onChange={(valor) => update("descricao", valor)}
+              tipo="textarea"
+              error={undefined} 
             />
           </div>
           <div className="flex gap-2 mt-4">
@@ -242,19 +244,19 @@ export default function Experience({
               <div className="text-slate-500 text-sm">
                 {exp.inicio
                   ? new Date(exp.inicio + "-01").toLocaleString("pt-BR", {
-                      month: "long",
-                      year: "numeric",
-                    })
+                    month: "long",
+                    year: "numeric",
+                  })
                   : "Mês/Ano"}{" "}
                 -{" "}
                 {exp.atual
                   ? "Atual"
                   : exp.fim
-                  ? new Date(exp.fim + "-01").toLocaleString("pt-BR", {
+                    ? new Date(exp.fim + "-01").toLocaleString("pt-BR", {
                       month: "long",
                       year: "numeric",
                     })
-                  : "Mês/Ano"}
+                    : "Mês/Ano"}
               </div>
               <div className="text-slate-700">{exp.descricao}</div>
               <div className="absolute top-2 right-2 flex gap-2">
