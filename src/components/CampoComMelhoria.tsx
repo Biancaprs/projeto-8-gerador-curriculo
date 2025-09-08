@@ -78,10 +78,10 @@ export default function CampoComMelhoria({
       >
         {loading ? (
           <>
-            Melhorando... <Spinner size={18} />
+            Aprimorando... <Spinner size={18} />
           </>
         ) : (
-          "Melhorar"
+          "Aprimorar com IA"
         )}
       </button>
     </div>
