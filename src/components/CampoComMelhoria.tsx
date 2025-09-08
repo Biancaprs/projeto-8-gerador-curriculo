@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { melhorarTextoIA } from "../server/gemini.ts";
 import { clsx } from "../utils/clsx";
+import { toast } from "react-toastify"; // Importa o toast
 
 interface CampoComMelhoriaProps {
   label: string;
@@ -25,13 +26,18 @@ export default function CampoComMelhoria({
     try {
       const melhorado = await melhorarTextoIA(valor);
       onChange(melhorado);
+      toast.success("Seu texto foi aprimorado com sucesso!");
     } catch (err) {
       console.error("Erro ao melhorar texto:", err);
-      alert("Falha ao conectar com a IA 😢");
+      toast.error(
+        "Não foi possível aprimorar o texto no momento. Tente novamente mais tarde."
+      );
     } finally {
       setLoading(false);
     }
   }
+
+  const isDisabled = loading || !valor.trim();
 
   return (
     <div className="flex flex-col gap-2 mb-4">
@@ -63,8 +69,11 @@ export default function CampoComMelhoria({
       <button
         type="button"
         onClick={handleMelhorar}
-        disabled={loading}
-        className="bg-black text-white px-4 py-1 rounded"
+        disabled={isDisabled}
+        className={clsx(
+          "bg-black text-white px-4 py-1 rounded",
+          isDisabled ? "cursor-not-allowed opacity-60" : "cursor-pointer"
+        )}
       >
         {loading ? "Melhorando..." : "Melhorar"}
       </button>
