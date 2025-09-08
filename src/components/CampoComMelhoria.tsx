@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { melhorarTextoIA } from "../server/gemini.ts";
 import { clsx } from "../utils/clsx";
-import { toast } from "react-toastify"; // Importa o toast
+import { toast } from "react-toastify";
+import Spinner from "./Spinner";
 
 interface CampoComMelhoriaProps {
   label: string;
@@ -75,7 +76,13 @@ export default function CampoComMelhoria({
           isDisabled ? "cursor-not-allowed opacity-60" : "cursor-pointer"
         )}
       >
-        {loading ? "Melhorando..." : "Melhorar"}
+        {loading ? (
+          <>
+            Melhorando... <Spinner size={18} />
+          </>
+        ) : (
+          "Melhorar"
+        )}
       </button>
     </div>
   );

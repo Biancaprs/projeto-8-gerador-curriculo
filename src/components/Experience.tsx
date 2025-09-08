@@ -150,9 +150,10 @@ export default function Experience({
               value={data.localizacao}
               onChange={(e) => update("localizacao", e.target.value)}
             />
-            <label className="flex items-center gap-1 text-sm mt-6">
+            <label className="flex items-center gap-1 text-sm mt-6 ">
               <input
                 type="checkbox"
+                className="cursor-pointer"
                 checked={data.remoto}
                 onChange={(e) => update("remoto", e.target.checked)}
               />
@@ -165,18 +166,18 @@ export default function Experience({
                 Data de Início
               </label>
               <input
-                className="border px-2 py-1 rounded w-full"
+                className="border px-2 py-1 rounded w-full cursor-pointer"
                 type="month"
                 value={data.inicio}
                 onChange={(e) => update("inicio", e.target.value)}
               />
             </div>
             <div className="flex-1">
-              <label className="block text-sm font-medium mb-1">
+              <label className="block text-sm font-medium mb-1 ">
                 Data de Fim
               </label>
               <input
-                className="border px-2 py-1 rounded w-full"
+                className="border px-2 py-1 rounded w-full cursor-pointer"
                 type="month"
                 value={data.fim}
                 onChange={(e) => update("fim", e.target.value)}
@@ -187,6 +188,7 @@ export default function Experience({
           <label className="flex items-center gap-1 text-sm mt-2">
             <input
               type="checkbox"
+              className="cursor-pointer"
               checked={data.atual}
               onChange={(e) => update("atual", e.target.checked)}
             />
@@ -208,21 +210,21 @@ export default function Experience({
           <div className="flex gap-2 mt-4">
             {editingIndex === null ? (
               <button
-                className="bg-black text-white px-4 py-1 rounded"
+                className="bg-black text-white px-4 py-1 rounded cursor-pointer"
                 onClick={handleAdd}
               >
                 Adicionar
               </button>
             ) : (
               <button
-                className="bg-black text-white px-4 py-1 rounded"
+                className="bg-black text-white px-4 py-1 rounded cursor-pointer"
                 onClick={handleSaveEdit}
               >
                 Salvar
               </button>
             )}
             <button
-              className="bg-white border px-4 py-1 rounded"
+              className="bg-white border px-4 py-1 rounded cursor-pointer"
               onClick={handleCancel}
             >
               Cancelar

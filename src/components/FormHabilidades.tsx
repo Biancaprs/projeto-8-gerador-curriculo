@@ -115,7 +115,7 @@ export default function FormHabilidades({
                     e.target.value as "Básico" | "Intermediário" | "Avançado"
                   )
                 }
-                className="border rounded px-2 py-1 w-full"
+                className="border rounded px-2 py-1 w-full cursor-pointer"
               >
                 <option value="Básico">Básico</option>
                 <option value="Intermediário">Intermediário</option>
@@ -127,21 +127,21 @@ export default function FormHabilidades({
           <div className="flex gap-2 mt-4">
             {editingIndex === null ? (
               <button
-                className="bg-black text-white px-4 py-1 rounded"
+                className="bg-black text-white px-4 py-1 rounded cursor-pointer"
                 onClick={handleAdd}
               >
                 Adicionar
               </button>
             ) : (
               <button
-                className="bg-black text-white px-4 py-1 rounded"
+                className="bg-black text-white px-4 py-1 rounded cursor-pointer"
                 onClick={handleSaveEdit}
               >
                 Salvar
               </button>
             )}
             <button
-              className="bg-white border px-4 py-1 rounded"
+              className="bg-white border px-4 py-1 rounded cursor-pointer"
               onClick={handleCancel}
             >
               Cancelar
