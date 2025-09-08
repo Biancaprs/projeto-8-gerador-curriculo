@@ -113,7 +113,7 @@ export default function Experience({
   return (
     <SectionCard title="Experiência Profissional">
       <button
-        className="mb-4 px-4 py-2 rounded bg-gray-100 border border-gray-300"
+        className="mb-4 px-4 py-2 rounded bg-gray-100 border border-gray-300 cursor-pointer"
         onClick={() => {
           setShowForm(true);
           setEditingIndex(null);

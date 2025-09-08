@@ -2,7 +2,6 @@ import { useState } from "react";
 import SectionCard from "./SectionCard";
 import TextInput from "./TextInput";
 
-
 interface Habilidade {
   id: string;
   nome: string;
@@ -20,7 +19,10 @@ const initialData: Habilidade = {
   nivel: "Básico",
 };
 
-export default function FormHabilidades({ habilidades, setHabilidades }: Props) {
+export default function FormHabilidades({
+  habilidades,
+  setHabilidades,
+}: Props) {
   const [data, setData] = useState<Habilidade>(initialData);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [showForm, setShowForm] = useState(false);
@@ -50,7 +52,6 @@ export default function FormHabilidades({ habilidades, setHabilidades }: Props) 
   }
 
   function handleSaveEdit() {
-
     if (editingIndex !== null) {
       const updated = [...habilidades];
       updated[editingIndex] = data;
@@ -80,7 +81,7 @@ export default function FormHabilidades({ habilidades, setHabilidades }: Props) 
   return (
     <SectionCard title="Habilidades">
       <button
-        className="mb-4 px-4 py-2 rounded bg-gray-100 border border-gray-300"
+        className="mb-4 px-4 py-2 rounded bg-gray-100 border border-gray-300 cursor-pointer"
         onClick={() => {
           setShowForm(true);
           setEditingIndex(null);
@@ -109,7 +110,10 @@ export default function FormHabilidades({ habilidades, setHabilidades }: Props) 
               <select
                 value={data.nivel}
                 onChange={(e) =>
-                  update("nivel", e.target.value as "Básico" | "Intermediário" | "Avançado")
+                  update(
+                    "nivel",
+                    e.target.value as "Básico" | "Intermediário" | "Avançado"
+                  )
                 }
                 className="border rounded px-2 py-1 w-full"
               >
