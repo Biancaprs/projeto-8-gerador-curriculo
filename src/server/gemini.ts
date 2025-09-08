@@ -14,12 +14,21 @@ export async function melhorarTextoIA(texto: string): Promise<string> {
   try {
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     const result = await model.generateContent(
-      `Melhore a clareza e profissionalismo do seguinte texto para um currículo, sem inventar informações: "${texto}"`
+      `Melhore o texto abaixo para uso em um currículo, focando em clareza, concisão e profissionalismo. Não invente ou adicione informações novas.
+
+     Texto:
+      "${texto}"
+
+      Instruções:
+      - Resuma de forma objetiva e profissional, usando palavras-chave relevantes.
+      - Use verbos de ação e quantifique resultados sempre que possível.
+      - Corrija erros de gramática, ortografia e melhore a fluidez.
+      - Otimize para impacto e densidade informacional, mantendo naturalidade e clareza.`
     );
 
     return result.response.text();
   } catch (error) {
     console.error("Erro ao chamar Gemini:", error);
-    return texto; 
+    return texto;
   }
 }
